@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You, My Love.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: radial-gradient(circle at center, #232323 0%, #0a0a0a 100%);
+            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: center;
+            overflow: hidden; 
+            position: relative;
+        }
+
+        .screen { display: none; opacity: 0; transition: opacity 1.5s ease; z-index: 10; }
+        .screen.active {
+            display: flex; width: 100%; height: 100vh;
+            justify-content: center; align-items: center; opacity: 1;
+        }
+        
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 16px; text-align: center;
+            width: 90%; max-width: 350px;
+        }
+        .glass-box h2 { font-weight: 500; margin-bottom: 5px; letter-spacing: 2px; color: #fff; }
+        .glass-box p { font-size: 13px; color: #aaa; margin-bottom: 25px; }
+        #pin-input {
+            width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px;
+            color: white; font-size: 20px; text-align: center;
+            letter-spacing: 10px; outline: none; margin-bottom: 20px; transition: 0.3s;
+        }
+        #pin-input:focus { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        #btn-submit {
+            background: white; color: #111; border: none; padding: 12px 0;
+            width: 100%; font-size: 15px; font-weight: 600; border-radius: 8px;
+            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+        }
+        #btn-submit:hover { background: #ccc; }
+        #pin-error { color: #ff6b6b; margin-top: 15px; margin-bottom: 0; font-size: 12px; }
+        
+        /* Halaman Surat */
+        #letter-screen.active { display: block; height: auto; padding: 60px 20px; }
+        .letter-box { max-width: 600px; margin: 0 auto; position: relative; z-index: 10; }
+        .title {
+            font-family: 'Playfair Display', serif; font-size: 30px; text-align: center;
+            margin-bottom: 30px; color: #fff; font-style: italic; font-weight: 400;
+        }
+        .content p {
+            font-size: 14.5px; line-height: 1.9; margin-bottom: 22px;
+            color: #d0d0d0; text-align: justify;
+        }
+        .content .signature { text-align: right; margin-top: 50px; font-style: italic; color: #fff; font-size: 16px; }
+        
+        .heart {
+            position: absolute; 
+            color: rgba(255, 255, 255, 0.18); 
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+            animation: floatUp linear infinite; 
+            z-index: 0; pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(80vh) scale(1) rotate(15deg); }
+            80% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0.5) rotate(-15deg); opacity: 0; }
+        }
+
+        .swal2-popup { background: #1e1e1e !important; border-radius: 16px !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+        .swal2-title { color: #fff !important; font-size: 20px !important; font-weight: 500 !important; }
+        .swal2-html-container { color: #bbb !important; font-size: 14px !important; }
+        .custom-btn-swal { background: #ffffff !important; color: #111 !important; font-weight: 600 !important; border-radius: 8px !important; }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="pin-screen" class="screen active">
+        <div class="glass-box">
+            <h2>Enter PIN</h2>
+            <p>Hint: Tanggal kita jadian (DDMM)</p>
+            <input type="password" id="pin-input" maxlength="4" placeholder="••••">
+            <button id="btn-submit">Enter</button>
+            <p id="pin-error" style="display: none;">PIN salah, coba lagi ya!</p>
+        </div>
+    </div>
+
+    <div id="letter-screen" class="screen">
+        <div class="letter-box">
+            <h1 class="title">To My Favorite Person,</h1>
+            <div class="content">
+                <p>I still smile thinking about how we spent five whole months secretly holding back our feelings like undercover agents, before finally making it official on September 6th. Going from close friends to being your girlfriend is genuinely the best plot twist ever, and I'm so glad we finally stopped hiding it!</p>
+                
+                <p>Thank you for always being so patient with me—especially when I keep losing in games or when I accidentally fall asleep first while we're on call. Even through a screen and miles apart, you somehow always know how to make me feel safe and loved.</p>
+                
+                <p>Thank you for being my safe space when I overthink or get overwhelmed. Your voice instantly calms my chaotic brain, and you never judge me for being vulnerable. I notice all the effort you put in, and it means the absolute world to me.</p>
+                
+                <p>You deserve all the love and soft things in this universe. And please remember, you don't always have to be tough or perfect—you're already more than enough just by being you.</p>
+                
+                <p>As you tackle college and chase your huge dreams, I'll be right here cheering you on every single step of the way. Whenever you're tired, stressed, or feeling down, please always remember, you have me, and I am going to be your future. I'll always be here to support you, listen to you, and remind you of how amazing you are.</p>
+                
+                <p>I am so deeply, madly in love with you, sayang. I want you to know that my future has you in it, no doubts about it. Sorry this web was made in a panic because I totally blanked on Boyfriend Day, but I poured all my heart into it just for you.</p>
+                
+                <p class="signature">Happy National Boyfriend Day, my love.<br>I love you so, so much. 🤍</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createHearts() {
+            const heartCount = 20; 
+            for (let i = 0; i < heartCount; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤";
+                let size = Math.random() * 20 + 15;
+                heart.style.fontSize = size + "px";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 8 + 6) + "s";
+                heart.style.animationDelay = (Math.random() * 5) + "s";
+                document.body.appendChild(heart);
+            }
+        }
+        createHearts(); 
+
+        const CORRECT_PIN = "0609"; 
+
+        document.getElementById('btn-submit').addEventListener('click', async function() {
+            const inputPin = document.getElementById('pin-input').value;
+            
+            if (inputPin === CORRECT_PIN) {
+                document.getElementById('pin-error').style.display = 'none';
+                
+                const audio = document.getElementById('bg-music');
+                audio.play().catch(e => console.log("Menunggu interaksi atau file mp3"));
+
+                document.getElementById('pin-screen').classList.remove('active');
+                setTimeout(() => {
+                    document.getElementById('pin-screen').style.display = 'none';
+                }, 500);
+
+                await Swal.fire({ title: 'Hi, Sayang.', text: 'Happy Boyfriend Day to my favorite person 🤍', confirmButtonText: 'Next', customClass: { confirmButton: 'custom-btn-swal' } });
+                await Swal.fire({ title: '5 months of hiding feelings...', text: 'And look at us now! Best plot twist ever since September 6th.', confirmButtonText: 'Next', customClass: { confirmButton: 'custom-btn-swal' } });
+                await Swal.fire({ title: 'Thank you for everything.', text: 'For always being patient when I lose in games and when I fall asleep on call 😴', confirmButtonText: 'Next', customClass: { confirmButton: 'custom-btn-swal' } });
+                await Swal.fire({ title: 'Never forget this...', text: 'Whenever you are tired, you have me. I am your future, and I love you so much.', confirmButtonText: 'Next', customClass: { confirmButton: 'custom-btn-swal' } });
+                await Swal.fire({ title: 'Oops, almost forgot...', text: 'I made this web in a rush because I blanked out on the date lol.', confirmButtonText: 'Next', customClass: { confirmButton: 'custom-btn-swal' } });
+                await Swal.fire({ title: 'Read my letter carefully, okay?', text: 'I love you!', confirmButtonText: 'Open Letter', customClass: { confirmButton: 'custom-btn-swal' } });
+
+                document.body.style.overflow = "auto"; 
+                const letterScreen = document.getElementById('letter-screen');
+                letterScreen.style.display = 'block'; 
+                setTimeout(() => { letterScreen.classList.add('active'); }, 100);
+
+            } else {
+                document.getElementById('pin-error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
